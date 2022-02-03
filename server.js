@@ -1,19 +1,18 @@
 "use strict";
 
 
-const TOKEN = "abc166.abc166.abc166"; //the token of the discord app of your bot (from the "Bot" option in the menu)
-const botsChannelId = "934545604032483388"; //the channel where the bots answers
-const AI_TOKEN = 'Bearer abc166'; //the token of textSynth.org api, must start with "Bearer "
-const BOT_USER_ID = "166" //the user id of the bot in discord as string
-const BOT_NAME ="shimon"; //important to be consistent for multi line response to work
+const TOKEN = "<your Token>"; //the token of the discord app of your bot (from the "Bot" option in the menu)
+const botsChannelId = "934545604032483388"; //the channel where the bots answers, already set for #bots
+const AI_TOKEN = 'Bearer <your token>'; //the token of textSynth.org api, must start with "Bearer"
+const BOT_USER_ID = "<ID>" //the user ID of the bot in discord
+const BOT_NAME ="<choose a name>"; //important to be consistent for multi-line response to work
 const OTHER_BOTS = ["934541377495248926","897813098910609418"]
 
 
 
 
 //the description that tells the bot who he is
-var description = "Shimon lives on the moon, shimon is the manager of the marketplace game, a game where one person posts a car and the rest have to guess its price, the one with the best guess posts the next car for the others to guess. Shimon (who lives on the moon) is a very nice person who LOVES everybody, when you say something bad it can make shimon very sad and shimon will cry, shimon LOVES every religion and country, mostly Israel";
-
+var description = "<come up with a cool story here>"
 
 
 
@@ -49,14 +48,14 @@ bot.on("ready", () => { //when the bot starts
   
   if (message.author.id == BOT_USER_ID){
       
-      return; //if the bot sent the messege then return so it won't get stuck in a loop and spam Gnusie's AIT
+      return; //if the bot sent the message then return so it won't get stuck in a loop
       
   } 
   
 
   let messageChannel = message.channel.id;
   
-  if ( messageChannel  != botsChannelId){//ignore messeges that are not from the marketplace, dm or the bot's channel
+  if ( messageChannel  != botsChannelId){//ignore messeges that are not from the correct channel
     
     return;
     
@@ -74,10 +73,10 @@ bot.on("ready", () => { //when the bot starts
   if (messageChannel  == botsChannelId){
     
     
-    console.log("recived messege in the bots channel") //debug remove debug debug todo remove
+    console.log("received message in the bots channel") //debug remove debug debug todo remove
     
 
-    if (msg.toLowerCase().includes("hello")||msg.toLowerCase().includes(BOT_NAME)||msg.toLowerCase().includes("bot")||msg.toLowerCase().includes("god")|| ((Math.random() <= 0.8) && isBotId(message.author.id)) ){//use the self aware brain of the human
+    if (msg.toLowerCase().includes("hello")||msg.toLowerCase().includes(BOT_NAME)||msg.toLowerCase().includes("bot")|| ((Math.random() <= 0.8) && isBotId(message.author.id)) ){//use the self aware brain of the human
       console.log("trying to reply");
       let name = message.author.username;
 	    let prompt = description+"\n--------\n"+name+": "+msg+"\n"+BOT_NAME+":";
@@ -91,17 +90,16 @@ bot.on("ready", () => { //when the bot starts
         },
          function (error,response,body){
     		  funnyRespond(JSON.parse(body).text);
-          console.log("THE ERROR OF THE API : "+error);
-          console.log("THE response OF THE API : "+response);
-          console.log("THE body OF THE API : "+body);
-		      console.log("THE body text OF THE API : \n"+JSON.parse(body).text);
-		      console.log("THE PROMPT WAS "+prompt);
+          console.log("API ERROR : "+error);
+          console.log("API RESPONSE : "+response);
+		  console.log("API BODY TEXT : \n"+JSON.parse(body).text);
+		  console.log("THE PROMPT WAS "+prompt);
 
 
         }
       )
       
-    //respond immidiatly witb the given response, using the GPT-J format  
+    //respond immediately with the given response, using the GPT-J format  
       if (funnyResponseStr == ""){return}
 	  function funnyRespond(givenStr){
       var tmpStrs = givenStr.split('\n');
